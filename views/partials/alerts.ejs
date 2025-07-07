@@ -1,0 +1,228 @@
+<style>
+  .modern-alert {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 1.5rem;
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.12);
+    position: relative;
+    overflow: hidden;
+    animation: slideInDown 0.5s ease-out;
+  }
+
+  .modern-alert::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    transition: transform 0.3s ease;
+  }
+
+  .modern-alert.alert-success::before {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+
+  .modern-alert.alert-danger::before {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  }
+
+  .modern-alert.alert-warning::before {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  }
+
+  .modern-alert.alert-info::before {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .alert-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .alert-success .alert-icon {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  }
+
+  .alert-danger .alert-icon {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+  }
+
+  .alert-warning .alert-icon {
+    background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+  }
+
+  .alert-info .alert-icon {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  }
+
+  .alert-content {
+    flex-grow: 1;
+    padding-left: 1rem;
+  }
+
+  .alert-title {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: #2d3748;
+  }
+
+  .alert-message {
+    color: #718096;
+    line-height: 1.5;
+    margin: 0;
+  }
+
+  .alert-close {
+    background: none;
+    border: none;
+    font-size: 1.2rem;
+    color: #718096;
+    transition: all 0.3s ease;
+    padding: 0.5rem;
+    border-radius: 50%;
+  }
+
+  .alert-close:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #2d3748;
+  }
+
+  @keyframes slideInDown {
+    from {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  .alert-auto-dismiss {
+    animation: slideOutUp 0.5s ease-out 4.5s forwards;
+  }
+
+  @keyframes slideOutUp {
+    from {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    to {
+      transform: translateY(-30px);
+      opacity: 0;
+    }
+  }
+</style>
+
+<% if (typeof success !== 'undefined' && success) { %>
+<div
+  class="modern-alert alert-success d-flex align-items-center alert-auto-dismiss"
+  data-aos="fade-down"
+>
+  <div class="alert-icon">
+    <i class="fas fa-check"></i>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">Success!</div>
+    <div class="alert-message"><%= success %></div>
+  </div>
+  <button
+    type="button"
+    class="alert-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  >
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<% } %> <% if (typeof error !== 'undefined' && error) { %>
+<div
+  class="modern-alert alert-danger d-flex align-items-center alert-auto-dismiss"
+  data-aos="fade-down"
+>
+  <div class="alert-icon">
+    <i class="fas fa-exclamation-triangle"></i>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">Error!</div>
+    <div class="alert-message"><%= error %></div>
+  </div>
+  <button
+    type="button"
+    class="alert-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  >
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<% } %> <% if (typeof warning !== 'undefined' && warning) { %>
+<div
+  class="modern-alert alert-warning d-flex align-items-center alert-auto-dismiss"
+  data-aos="fade-down"
+>
+  <div class="alert-icon">
+    <i class="fas fa-exclamation"></i>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">Warning!</div>
+    <div class="alert-message"><%= warning %></div>
+  </div>
+  <button
+    type="button"
+    class="alert-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  >
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<% } %> <% if (typeof info !== 'undefined' && info) { %>
+<div
+  class="modern-alert alert-info d-flex align-items-center alert-auto-dismiss"
+  data-aos="fade-down"
+>
+  <div class="alert-icon">
+    <i class="fas fa-info"></i>
+  </div>
+  <div class="alert-content">
+    <div class="alert-title">Information</div>
+    <div class="alert-message"><%= info %></div>
+  </div>
+  <button
+    type="button"
+    class="alert-close"
+    data-bs-dismiss="alert"
+    aria-label="Close"
+  >
+    <i class="fas fa-times"></i>
+  </button>
+</div>
+<% } %>
+
+<script>
+  // Auto-dismiss alerts after 5 seconds
+  document.addEventListener("DOMContentLoaded", function () {
+    const alerts = document.querySelectorAll(".alert-auto-dismiss");
+    alerts.forEach((alert) => {
+      setTimeout(() => {
+        const bsAlert = new bootstrap.Alert(alert);
+        if (bsAlert) {
+          bsAlert.close();
+        }
+      }, 5000);
+    });
+  });
+</script>

@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title><%= title %> | Football Hub</title>
+
+    <!-- Bootstrap + Font Awesome + AOS + Google Fonts -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      :root {
+        --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        --success-gradient: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+        --warning-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+        --danger-gradient: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+        --glass-bg: rgba(255, 255, 255, 0.25);
+        --glass-border: rgba(255, 255, 255, 0.18);
+        --text-primary: #2d3748;
+        --text-secondary: #718096;
+        --bg-primary: #f7fafc;
+        --shadow-light: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-medium: 0 8px 40px rgba(0, 0, 0, 0.12);
+        --shadow-heavy: 0 20px 60px rgba(0, 0, 0, 0.15);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        font-family: "Inter", sans-serif;
+        color: var(--text-primary);
+        min-height: 100vh;
+        position: relative;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(
+            circle at 25% 25%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 75% 75%,
+            rgba(255, 255, 255, 0.1) 0%,
+            transparent 50%
+          );
+        pointer-events: none;
+        z-index: -1;
+      }
+
+      /* Hero Section */
+      .hero-section {
+        background: transparent;
+        color: white;
+        padding: 4rem 0 3rem;
+        text-align: center;
+        position: relative;
+      }
+
+      .hero-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+      }
+
+      .hero-subtitle {
+        font-size: 1.25rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+      }
+
+      .btn-add-team {
+        background: var(--success-gradient);
+        border: none;
+        border-radius: 50px;
+        padding: 1rem 2.5rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: white;
+        box-shadow: var(--shadow-medium);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-add-team::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.3),
+          transparent
+        );
+        transition: left 0.6s;
+      }
+
+      .btn-add-team:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: var(--shadow-heavy);
+        color: white;
+      }
+
+      .btn-add-team:hover::before {
+        left: 100%;
+      }
+
+      /* Main Content */
+      .main-content {
+        background: var(--bg-primary);
+        min-height: 100vh;
+        border-radius: 2rem 2rem 0 0;
+        margin-top: -2rem;
+        position: relative;
+        z-index: 10;
+        padding-top: 3rem;
+      }
+
+      /* Stats Cards */
+      .stats-container {
+        margin-bottom: 3rem;
+      }
+
+      .stat-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 1.5rem;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: var(--shadow-light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        margin-bottom: 1.5rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .stat-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        transition: transform 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .stat-card:nth-child(1)::before {
+        background: var(--primary-gradient);
+      }
+      .stat-card:nth-child(2)::before {
+        background: var(--success-gradient);
+      }
+      .stat-card:nth-child(3)::before {
+        background: var(--warning-gradient);
+      }
+      .stat-card:nth-child(4)::before {
+        background: var(--secondary-gradient);
+      }
+
+      .stat-icon {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+      }
+
+      .stat-number {
+        font-size: 2.5rem;
+        font-weight: 800;
+        font-family: "Poppins", sans-serif;
+        margin-bottom: 0.5rem;
+      }
+
+      .stat-label {
+        color: var(--text-secondary);
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 1px;
+      }
+
+      .stat-primary .stat-icon {
+        color: #667eea;
+      }
+      .stat-primary .stat-number {
+        color: #667eea;
+      }
+
+      .stat-success .stat-icon {
+        color: #4facfe;
+      }
+      .stat-success .stat-number {
+        color: #4facfe;
+      }
+
+      .stat-warning .stat-icon {
+        color: #43e97b;
+      }
+      .stat-warning .stat-number {
+        color: #43e97b;
+      }
+
+      .stat-info .stat-icon {
+        color: #f093fb;
+      }
+      .stat-info .stat-number {
+        color: #f093fb;
+      }
+
+      /* Team Cards */
+      .team-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 2rem;
+        box-shadow: var(--shadow-light);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
+        position: relative;
+      }
+
+      .team-card:hover {
+        transform: translateY(-10px) scale(1.02);
+        box-shadow: var(--shadow-heavy);
+      }
+
+      .team-header {
+        background: var(--primary-gradient);
+        color: white;
+        padding: 2rem;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .team-header::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.6s;
+      }
+
+      .team-card:hover .team-header::before {
+        left: 100%;
+      }
+
+      .team-title {
+        font-family: "Poppins", sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+      }
+
+      .team-stats {
+        background: rgba(248, 249, 250, 0.8);
+        padding: 1.5rem;
+      }
+
+      .team-stat-item {
+        text-align: center;
+        margin-bottom: 0.5rem;
+      }
+
+      .team-stat-number {
+        font-size: 1.8rem;
+        font-weight: 800;
+        font-family: "Poppins", sans-serif;
+        color: var(--text-primary);
+      }
+
+      .team-stat-label {
+        font-size: 0.8rem;
+        color: var(--text-secondary);
+        text-transform: uppercase;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+      }
+
+      .team-actions {
+        padding: 1.5rem;
+        background: white;
+      }
+
+      .btn-group .btn {
+        border-radius: 0.75rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        border: none;
+      }
+
+      .btn-outline-primary {
+        background: rgba(102, 126, 234, 0.1);
+        border: 2px solid rgba(102, 126, 234, 0.3);
+        color: #667eea;
+      }
+
+      .btn-outline-primary:hover {
+        background: var(--primary-gradient);
+        border-color: transparent;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .btn-outline-warning {
+        background: rgba(67, 233, 123, 0.1);
+        border: 2px solid rgba(67, 233, 123, 0.3);
+        color: #43e97b;
+      }
+
+      .btn-outline-warning:hover {
+        background: var(--warning-gradient);
+        border-color: transparent;
+        color: #2d3748;
+        transform: translateY(-2px);
+      }
+
+      .btn-outline-danger {
+        background: rgba(250, 112, 154, 0.1);
+        border: 2px solid rgba(250, 112, 154, 0.3);
+        color: #fa709a;
+      }
+
+      .btn-outline-danger:hover {
+        background: var(--danger-gradient);
+        border-color: transparent;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      /* Empty State */
+      .empty-state {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(20px);
+        border-radius: 2rem;
+        box-shadow: var(--shadow-medium);
+        padding: 4rem 2rem;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .empty-state i {
+        font-size: 5rem;
+        color: var(--text-secondary);
+        margin-bottom: 2rem;
+        opacity: 0.5;
+      }
+
+      .empty-state h3 {
+        font-family: "Poppins", sans-serif;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 1rem;
+      }
+
+      .empty-state p {
+        color: var(--text-secondary);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+      }
+
+      /* Modal Enhancements */
+      .modal-content {
+        border-radius: 1.5rem;
+        border: none;
+        box-shadow: var(--shadow-heavy);
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(20px);
+      }
+
+      .modal-header {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 1.5rem 1.5rem 0 0;
+        padding: 1.5rem;
+        background: rgba(248, 249, 250, 0.8);
+      }
+
+      .modal-body {
+        padding: 2rem;
+      }
+
+      .modal-footer {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        border-radius: 0 0 1.5rem 1.5rem;
+        padding: 1.5rem;
+        background: rgba(248, 249, 250, 0.8);
+      }
+
+      .form-control {
+        border: 2px solid #e2e8f0;
+        border-radius: 1rem;
+        padding: 0.75rem 1rem;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        background: white;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      }
+
+      .form-control:focus {
+        border-color: #4facfe;
+        box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        transform: translateY(-1px);
+      }
+
+      .btn-success {
+        background: var(--success-gradient);
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+      }
+
+      .btn-warning {
+        background: var(--warning-gradient);
+        border: none;
+        border-radius: 50px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        color: #2d3748;
+      }
+
+      .btn-secondary {
+        background: rgba(113, 128, 150, 0.1);
+        border: 2px solid rgba(113, 128, 150, 0.3);
+        border-radius: 50px;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        color: var(--text-secondary);
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        .hero-title {
+          font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+          font-size: 1rem;
+        }
+
+        .btn-add-team {
+          padding: 0.875rem 2rem;
+          font-size: 1rem;
+        }
+
+        .stat-card {
+          padding: 1.5rem;
+        }
+
+        .stat-icon {
+          font-size: 2rem;
+        }
+
+        .stat-number {
+          font-size: 2rem;
+        }
+
+        .team-header {
+          padding: 1.5rem;
+        }
+
+        .team-title {
+          font-size: 1.25rem;
+        }
+
+        .btn-group .btn {
+          font-size: 0.875rem;
+          padding: 0.5rem 0.75rem;
+        }
+      }
+
+      /* Loading Animation */
+      .loading {
+        position: relative;
+        pointer-events: none;
+        opacity: 0.7;
+      }
+
+      .loading::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 20px;
+        height: 20px;
+        margin: -10px 0 0 -10px;
+        border: 2px solid #ffffff;
+        border-radius: 50%;
+        border-top-color: transparent;
+        animation: spin 1s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../partials/navbar') %>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8 mx-auto text-center">
+            <h1 class="hero-title" data-aos="fade-up">
+              <i class="fas fa-shield-alt me-3"></i>Team Management
+            </h1>
+            <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="100">
+              Manage and organize your football teams with ease
+            </p>
+            <% if (user && user.isAdmin) { %>
+            <button
+              class="btn btn-add-team"
+              data-bs-toggle="modal"
+              data-bs-target="#addTeamModal"
+              data-aos="fade-up"
+              data-aos-delay="200"
+            >
+              <i class="fas fa-plus me-2"></i>Add New Team
+            </button>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="main-content">
+      <div class="container">
+        <%- include('../partials/alerts') %>
+
+        <!-- Stats Section -->
+        <div class="stats-container" data-aos="fade-up" data-aos-delay="300">
+          <div class="row">
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card stat-primary">
+                <div class="stat-icon">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="stat-number"><%= teams.length %></div>
+                <div class="stat-label">Total Teams</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card stat-success">
+                <div class="stat-icon">
+                  <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-number">
+                  <%= teams.reduce((sum, team) => sum + team.playerCount, 0) %>
+                </div>
+                <div class="stat-label">Total Players</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card stat-warning">
+                <div class="stat-icon">
+                  <i class="fas fa-crown"></i>
+                </div>
+                <div class="stat-number">
+                  <%= teams.reduce((sum, team) => sum + team.captainCount, 0) %>
+                </div>
+                <div class="stat-label">Total Captains</div>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+              <div class="stat-card stat-info">
+                <div class="stat-icon">
+                  <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-number">
+                  <%= teams.length > 0 ? Math.round(teams.reduce((sum, team) =>
+                  sum + team.playerCount, 0) / teams.length) : 0 %>
+                </div>
+                <div class="stat-label">Avg Players/Team</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Teams Grid -->
+        <div class="row" id="teamsContainer">
+          <% if (teams.length === 0) { %>
+          <div class="col-12">
+            <div class="empty-state" data-aos="fade-up" data-aos-delay="500">
+              <i class="fas fa-shield-alt"></i>
+              <h3>No Teams Found</h3>
+              <p>Get started by creating your first football team</p>
+              <% if (user && user.isAdmin) { %>
+              <button
+                class="btn btn-add-team"
+                data-bs-toggle="modal"
+                data-bs-target="#addTeamModal"
+              >
+                <i class="fas fa-plus me-2"></i>Create First Team
+              </button>
+              <% } else { %>
+              <p class="text-muted">
+                <i class="fas fa-info-circle me-2"></i>
+                Please contact an administrator to create teams.
+              </p>
+              <% } %>
+            </div>
+          </div>
+          <% } else { %> <% teams.forEach((team, index) => { %>
+          <div class="col-lg-4 col-md-6 mb-4">
+            <div
+              class="team-card h-100"
+              data-aos="fade-up"
+              data-aos-delay="<%= 500 + (index * 100) %>"
+            >
+              <div class="team-header">
+                <h4 class="team-title">
+                  <i class="fas fa-shield-alt me-2"></i>
+                  <%= team.teamName %>
+                </h4>
+              </div>
+
+              <div class="team-stats">
+                <div class="row">
+                  <div class="col-4">
+                    <div class="team-stat-item">
+                      <div class="team-stat-number">
+                        <%= team.playerCount %>
+                      </div>
+                      <div class="team-stat-label">Players</div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="team-stat-item">
+                      <div class="team-stat-number">
+                        <%= team.captainCount %>
+                      </div>
+                      <div class="team-stat-label">Captains</div>
+                    </div>
+                  </div>
+                  <div class="col-4">
+                    <div class="team-stat-item">
+                      <div class="team-stat-number">
+                        <%= team.playerCount > 0 ? Math.round(team.captainCount
+                        / team.playerCount * 100) : 0 %>%
+                      </div>
+                      <div class="team-stat-label">Captain Rate</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="team-actions">
+                <div class="btn-group w-100" role="group">
+                  <a
+                    href="/teams/<%= team._id %>"
+                    class="btn btn-outline-primary"
+                  >
+                    <i class="fas fa-eye"></i> View
+                  </a>
+                  <% if (user && user.isAdmin) { %>
+                  <button
+                    class="btn btn-outline-warning"
+                    onclick="editTeam('<%= team._id %>', '<%= team.teamName %>')"
+                  >
+                    <i class="fas fa-edit"></i> Edit
+                  </button>
+                  <button
+                    class="btn btn-outline-danger"
+                    onclick="deleteTeam('<%= team._id %>', '<%= team.teamName %>', '<%= team.playerCount %>')"
+                  >
+                    <i class="fas fa-trash"></i> Delete
+                  </button>
+                  <% } %>
+                </div>
+
+                <% if (team.playerCount > 0) { %>
+                <div class="mt-2 text-center">
+                  <small class="text-muted">
+                    <i class="fas fa-info-circle me-1"></i>
+                    This team has <%= team.playerCount %> player(s)
+                  </small>
+                </div>
+                <% } %>
+              </div>
+            </div>
+          </div>
+          <% }) %> <% } %>
+        </div>
+      </div>
+    </div>
+
+    <!-- Add Team Modal -->
+    <% if (user && user.isAdmin) { %>
+    <div class="modal fade" id="addTeamModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-plus text-success me-2"></i>Add New Team
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form id="addTeamForm">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="teamName" class="form-label fw-bold">
+                  <i class="fas fa-shield-alt text-primary me-2"></i>Team Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="teamName"
+                  name="teamName"
+                  placeholder="Enter team name"
+                  required
+                />
+                <div class="form-text">
+                  <i class="fas fa-info-circle me-1"></i>Team name must be
+                  unique
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-success" id="addTeamBtn">
+                <i class="fas fa-plus me-2"></i>Create Team
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Team Modal -->
+    <div class="modal fade" id="editTeamModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fas fa-edit text-warning me-2"></i>Edit Team
+            </h5>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+            ></button>
+          </div>
+          <form id="editTeamForm">
+            <div class="modal-body">
+              <div class="mb-3">
+                <label for="editTeamName" class="form-label fw-bold">
+                  <i class="fas fa-shield-alt text-primary me-2"></i>Team Name
+                </label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="editTeamName"
+                  name="teamName"
+                  required
+                />
+                <div class="form-text">
+                  <i class="fas fa-info-circle me-1"></i>Team name must be
+                  unique
+                </div>
+              </div>
+              <input type="hidden" id="editTeamId" />
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                <i class="fas fa-times me-2"></i>Cancel
+              </button>
+              <button type="submit" class="btn btn-warning" id="editTeamBtn">
+                <i class="fas fa-save me-2"></i>Update Team
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    <% } %>
+
+    <!-- Hidden data for JavaScript -->
+    <script type="application/json" id="pageData">
+      {
+        "user": <% if (user) { %>true<% } else { %>false<% } %>,
+        "isAdmin": <% if (user && user.isAdmin) { %>true<% } else { %>false<% } %>
+      }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <script>
+      // Initialize AOS
+      AOS.init({
+        duration: 800,
+        easing: "ease-out-cubic",
+        once: true,
+        offset: 100,
+      });
+
+      // Get page data
+      const pageData = JSON.parse(
+        document.getElementById("pageData").textContent
+      );
+
+      // Show toast using modern alerts
+      function showToast(type, message) {
+        // Create alert element
+        const alertDiv = document.createElement("div");
+        alertDiv.className = `modern-alert alert-${type} d-flex align-items-center alert-auto-dismiss`;
+        alertDiv.innerHTML = `
+        <div class="alert-icon">
+          <i class="fas fa-${
+            type === "success" ? "check" : "exclamation-triangle"
+          }"></i>
+        </div>
+        <div class="alert-content">
+          <div class="alert-title">${
+            type === "success" ? "Success!" : "Error!"
+          }</div>
+          <div class="alert-message">${message}</div>
+        </div>
+        <button type="button" class="alert-close" onclick="this.parentElement.remove()">
+          <i class="fas fa-times"></i>
+        </button>
+      `;
+
+        // Add to page
+        const container = document.querySelector(".container");
+        container.insertBefore(alertDiv, container.firstChild);
+
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (alertDiv.parentElement) {
+            alertDiv.remove();
+          }
+        }, 5000);
+      }
+
+      if (pageData.isAdmin) {
+        // Add Team
+        document
+          .getElementById("addTeamForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const addBtn = document.getElementById("addTeamBtn");
+            const originalText = addBtn.innerHTML;
+
+            // Show loading state
+            addBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin me-2"></i>Creating...';
+            addBtn.disabled = true;
+            addBtn.classList.add("loading");
+
+            const formData = new FormData(this);
+            const teamName = formData.get("teamName").trim();
+
+            if (!teamName) {
+              showToast("error", "Please enter a team name");
+              addBtn.innerHTML = originalText;
+              addBtn.disabled = false;
+              addBtn.classList.remove("loading");
+              return;
+            }
+
+            try {
+              const response = await fetch("/teams", {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-Requested-With": "XMLHttpRequest",
+                },
+                body: JSON.stringify({ teamName }),
+              });
+
+              const result = await response.json();
+
+              if (response.ok) {
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(
+                  document.getElementById("addTeamModal")
+                );
+                modal.hide();
+
+                // Reset form
+                this.reset();
+
+                // Show success message
+                showToast(
+                  "success",
+                  result.message || `Team "${teamName}" created successfully!`
+                );
+
+                // Reload page after a short delay
+                setTimeout(() => {
+                  location.reload();
+                }, 1500);
+              } else {
+                showToast("error", result.error || "Failed to create team");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              showToast("error", "Failed to create team. Please try again.");
+            } finally {
+              addBtn.innerHTML = originalText;
+              addBtn.disabled = false;
+              addBtn.classList.remove("loading");
+            }
+          });
+
+        // Edit Team
+        window.editTeam = function (teamId, teamName) {
+          document.getElementById("editTeamId").value = teamId;
+          document.getElementById("editTeamName").value = teamName;
+
+          const modal = new bootstrap.Modal(
+            document.getElementById("editTeamModal")
+          );
+          modal.show();
+        };
+
+        document
+          .getElementById("editTeamForm")
+          .addEventListener("submit", async function (e) {
+            e.preventDefault();
+
+            const editBtn = document.getElementById("editTeamBtn");
+            const originalText = editBtn.innerHTML;
+
+            // Show loading state
+            editBtn.innerHTML =
+              '<i class="fas fa-spinner fa-spin me-2"></i>Updating...';
+            editBtn.disabled = true;
+            editBtn.classList.add("loading");
+
+            const teamId = document.getElementById("editTeamId").value;
+            const formData = new FormData(this);
+            const teamName = formData.get("teamName").trim();
+
+            if (!teamName) {
+              showToast("error", "Please enter a team name");
+              editBtn.innerHTML = originalText;
+              editBtn.disabled = false;
+              editBtn.classList.remove("loading");
+              return;
+            }
+
+            try {
+              const response = await fetch(`/teams/${teamId}`, {
+                method: "PUT",
+                headers: {
+                  "Content-Type": "application/json",
+                  "X-Requested-With": "XMLHttpRequest",
+                },
+                body: JSON.stringify({ teamName }),
+              });
+
+              const result = await response.json();
+
+              if (response.ok) {
+                // Close modal
+                const modal = bootstrap.Modal.getInstance(
+                  document.getElementById("editTeamModal")
+                );
+                modal.hide();
+
+                // Show success message
+                showToast(
+                  "success",
+                  result.message ||
+                    `Team updated to "${teamName}" successfully!`
+                );
+
+                // Reload page after a short delay
+                setTimeout(() => {
+                  location.reload();
+                }, 1500);
+              } else {
+                showToast("error", result.error || "Failed to update team");
+              }
+            } catch (error) {
+              console.error("Error:", error);
+              showToast("error", "Failed to update team. Please try again.");
+            } finally {
+              editBtn.innerHTML = originalText;
+              editBtn.disabled = false;
+              editBtn.classList.remove("loading");
+            }
+          });
+
+        // Delete Team
+        window.deleteTeam = async function (teamId, teamName, playerCount) {
+          if (playerCount > 0) {
+            showToast(
+              "error",
+              `Cannot delete team "${teamName}" because it has ${playerCount} player(s). Please reassign or delete the players first.`
+            );
+            return;
+          }
+
+          if (!confirm(`Are you sure you want to delete team "${teamName}"?`))
+            return;
+
+          try {
+            const response = await fetch(`/teams/${teamId}`, {
+              method: "DELETE",
+              headers: {
+                "X-Requested-With": "XMLHttpRequest",
+              },
+            });
+
+            const result = await response.json();
+
+            if (response.ok) {
+              showToast(
+                "success",
+                result.message || `Team "${teamName}" deleted successfully!`
+              );
+
+              // Reload page after a short delay
+              setTimeout(() => {
+                location.reload();
+              }, 1500);
+            } else {
+              showToast("error", result.error || "Failed to delete team");
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            showToast("error", "Failed to delete team. Please try again.");
+          }
+        };
+
+        // Reset modal forms when closed
+        document
+          .getElementById("addTeamModal")
+          .addEventListener("hidden.bs.modal", function () {
+            document.getElementById("addTeamForm").reset();
+            const addBtn = document.getElementById("addTeamBtn");
+            addBtn.innerHTML = '<i class="fas fa-plus me-2"></i>Create Team';
+            addBtn.disabled = false;
+            addBtn.classList.remove("loading");
+          });
+
+        document
+          .getElementById("editTeamModal")
+          .addEventListener("hidden.bs.modal", function () {
+            const editBtn = document.getElementById("editTeamBtn");
+            editBtn.innerHTML = '<i class="fas fa-save me-2"></i>Update Team';
+            editBtn.disabled = false;
+            editBtn.classList.remove("loading");
+          });
+      }
+    </script>
+
+    <%- include('../partials/scripts') %>
+  </body>
+</html>
