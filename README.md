@@ -239,7 +239,7 @@ pm2 monit
 ### Environment Variables for Production
 
 ```env
-MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/football-management
+MONGO_URI=
 PORT=3000
 SECRET_KEY=your-super-secret-jwt-key
 NODE_ENV=production
